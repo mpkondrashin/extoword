@@ -1,4 +1,8 @@
+altgraph==0.17.2
 lxml==4.8.0
+macholib==1.16
+pyinstaller==4.10
+pyinstaller-hooks-contrib==2022.2
 python-docx==0.8.11
 tk==0.1.0
 xlrd==2.0.1
