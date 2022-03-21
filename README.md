@@ -20,7 +20,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-To run script use following command:
+Use following command to run script:
 ```commandline
 python gui.py
 ```
