@@ -38,3 +38,13 @@ This will generate ```extoword``` executable that does not require to have pytho
 to be installed.
 
 Note: This feature was tested only for macOS
+
+## Bugs
+
+This script was not tested under Windows/Linux. Obvious incompatible spot that should be
+fixed is following line in config.py:
+```python
+__folder = os.path.expanduser('~/Library/Application Support/ExToWord')
+```
+Though Windows icon is added to executable in build.oy, this
+ is also not tested.
