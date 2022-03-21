@@ -1,6 +1,7 @@
 # ExToWord — Excel To Word Converter
 
-Following instruction are for Linux/macOS.
+## Get Sources
+Following instructions are for Linux/macOS.
 
 To run please install python3 (https://www.python.org/downloads/) and tkinter.
 The latest can be installed using following command (for macOS):
@@ -20,7 +21,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
+## Run Script
+
 Use following command to run script:
 ```commandline
 python gui.py
 ```
+
+## Build Self-contained Executable
+
+Run following command
+```commandline
+python build.py
+```
+This will generate ```extoword``` executable that does not require to have python
+to be installed.
+
+Note: This feature was tested only for macOS
