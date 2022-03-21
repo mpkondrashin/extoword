@@ -46,5 +46,5 @@ fixed is following line in config.py:
 ```python
 __folder = os.path.expanduser('~/Library/Application Support/ExToWord')
 ```
-Though Windows icon is added to executable in build.oy, this
+Though Windows icon is added to executable in build.py, this
  is also not tested.
