@@ -39,6 +39,10 @@ to be installed.
 
 Note: This feature was tested only for macOS
 
+## GUI image
+
+![GUI Image](gui.png "GUI image")
+
 ## Bugs
 
 This script was not tested under Windows/Linux. Obvious incompatible spot that should be
