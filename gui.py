@@ -546,26 +546,13 @@ class IntroPhase(SetupPhase):
     @classmethod
     def show_whats_new(cls):
         config_version = config.get('version')
-        """
-        if config_version == '':
-            print('First run')
-            config.set('version', VERSION)
-        elif float(VERSION) > float(config_version):
-            print('Upgrade')
-            config.set('version', VERSION)
-        else:
-            print('Second run and more')
-        """
-        #whats_new = collect_whats_new(config_version)
+        print(config_version)
         if version.have_new_release(config_version):
+            print('have_new_release')
             config.set('version', version.version())
             text = whats_new_text(config_version)
+            print(text)
             window = cls.pop_up_whats_new(text)
-            #cls.root.wait_window(window)
-            #messagebox.showinfo(
-            #    title="What's New",
-            #    message=text
-            #)
 
     @classmethod
     def decorate(cls):
