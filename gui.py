@@ -89,14 +89,14 @@ class SetupPhase(object):
     stop_flag = False
 
     zero_len = font.Font(family=tk.NORMAL, size=100, weight="normal").measure("0")
-    macos_len = 61
-    LABEL_FONT = (None, int(12 / macos_len * zero_len), font.NORMAL)
+    macos_len = 61.0
+    LABEL_FONT = (None, int(12 * macos_len / zero_len), font.NORMAL)
     BUTTON_FONT = LABEL_FONT
-    SMALL_FONT = (None, int(10 / macos_len * zero_len), font.NORMAL)
-    TITLE_FONT = (None, int(14 / macos_len * zero_len), font.BOLD)
-    TIP_FONT = (None, int(9 / macos_len * zero_len), font.NORMAL)
-    PHASES_FONT_SIZE = int(12 / macos_len * zero_len)
-    STATUS_FONT = (None, int(9 / macos_len * zero_len), font.NORMAL)
+    SMALL_FONT = (None, int(10 * macos_len / zero_len), font.NORMAL)
+    TITLE_FONT = (None, int(14 * macos_len / zero_len), font.BOLD)
+    TIP_FONT = (None, int(9 * macos_len / zero_len), font.NORMAL)
+    PHASES_FONT_SIZE = int(12 * macos_len / zero_len)
+    STATUS_FONT = (None, int(9 * macos_len / zero_len), font.NORMAL)
 
     @classmethod
     def mainloop(cls):
