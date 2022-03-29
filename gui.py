@@ -64,14 +64,16 @@ HBUTTON = 40
 WBUTTON = 100
 MARGIN = (WLEFT - WLOGO) // 2
 
-LABEL_FONT = (None, 10, font.NORMAL)
+
+
+LABEL_FONT = (None, 12, font.NORMAL)
 BUTTON_FONT = LABEL_FONT
-SMALL_FONT = (None, 8, font.NORMAL)
+SMALL_FONT = (None, 10, font.NORMAL)
 
 TITLE_FONT = (None, 14, font.BOLD)
 TIP_FONT = (None, 9, font.NORMAL)
-PHASES_FONT_SIZE = 10
-STATUS_FONT = (None, 8, font.NORMAL)
+PHASES_FONT_SIZE = 12
+STATUS_FONT = (None, 9, font.NORMAL)
 
 DEFAULT_DESTINATION = 'no default'
 
@@ -88,8 +90,6 @@ class SetupPhase(object):
     status_var = tk.StringVar()
     default_status = ''
     destination_folder = DEFAULT_DESTINATION
-    if sys.platform == 'darwin':
-        destination_folder = '/Users/michael/PyCharmProjects/tunneleffect/test'
 
     next_btn = None
 
@@ -97,6 +97,10 @@ class SetupPhase(object):
 
     y = MARGIN
     stop_flag = False
+
+    font = font.Font(family=tk.NORMAL, size=100, weight="normal")
+    zero_len = font.measure("0")
+    print(zero_len)
 
     @classmethod
     def mainloop(cls):
