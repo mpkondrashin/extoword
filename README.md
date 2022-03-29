@@ -1,5 +1,9 @@
 # ExToWord — Excel To Word Converter
 
+Script convert MS Excel files to MS Word according to certain rules.
+The rules are displayed on first wizard screen.
+Script is developed to support macOS, Windows, and Linux (not tested).
+
 ## Get Sources
 Following instructions are for Linux/macOS.
 
@@ -45,10 +49,4 @@ Note: This feature was tested only for macOS
 
 ## Bugs
 
-This script was not tested under Windows/Linux. Obvious incompatible spot that should be
-fixed is following line in config.py:
-```python
-__folder = os.path.expanduser('~/Library/Application Support/ExToWord')
-```
-Though Windows icon is added to executable in build.py, this
- is also not tested.
+This script was not tested under Linux
