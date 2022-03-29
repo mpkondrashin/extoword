@@ -42,6 +42,7 @@ version.add_release('1.5', 'Added skip ordering phase in case only one source fi
 version.add_release('1.6', 'Dramatically improved performance')
 version.add_release('1.7', 'Added message on error in cell')
 version.add_release('1.8', 'Updated python to 3.9.1 and rebuild to support Big Sur')
+version.add_release('2.0', 'Add Windows support')
 
 
 def whats_new_text(last_version):
@@ -251,7 +252,7 @@ class SetupPhase(object):
 
     @classmethod
     def add_input(cls, prompt, width, variable, tip=None):
-        label = tk.Label(cls.root, text=prompt, font=LABEL_FONT)
+        label = tk.Label(cls.root, text=prompt, font=cls.LABEL_FONT)
         label.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         SetupPhase.y += HMSPACE
 
@@ -277,7 +278,7 @@ class SetupPhase(object):
         check = tk.Checkbutton(cls.root,
                                text=text,
                                variable=variable,
-                               font=LABEL_FONT)
+                               font=cls.LABEL_FONT)
 
         check.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         if tip is not None:
@@ -658,12 +659,12 @@ class OrderPhase(SetupPhase):
         label.place(x=WLEFT + MARGIN, y=SetupPhase.y, anchor=tk.W)
         label = tk.Label(cls.root, text=fixup(file_name))
         label.place(x=WIDTH - MARGIN - 2*BUTTON_SIZE, y=SetupPhase.y, anchor=tk.E)
-        up_btn = tk.Button(cls.root, text='\u2b06', command=move_up, font=BUTTON_FONT)
+        up_btn = tk.Button(cls.root, text='\u2b06', command=move_up, font=cls.BUTTON_FONT)
         up_btn.place(x=WIDTH - MARGIN - BUTTON_SIZE, y=SetupPhase.y, anchor=tk.E)
 
         if n == 0:
             up_btn.config(state="disabled")
-        down_btn = tk.Button(cls.root, text='\u2b07', command=move_down, font=BUTTON_FONT)
+        down_btn = tk.Button(cls.root, text='\u2b07', command=move_down, font=cls.BUTTON_FONT)
         down_btn.place(x=WIDTH - MARGIN, y=SetupPhase.y, anchor=tk.E)
         if n == len(SetupPhase.conf['sources'])-1:
             down_btn.config(state="disabled")
@@ -777,15 +778,27 @@ class GeneratePhase(SetupPhase):
     def reveal_result(cls):
         if cls.open_result_var.get() == 0:
             return
-        #command = 'open "%s"' % os.path.dirname(SetupPhase.conf['output_file_name'])
-        #os.system(command)
+
         import subprocess
-        command = [
-            'open',
-            '-R',
-            SetupPhase.conf['output_file_name']
-        ]
-        #print(' '.join(command))
+        import platform
+
+        __system = platform.system()
+        if __system == 'Linux':
+            return
+        elif __system == 'Windows':
+            command = [
+                os.path.join(os.getenv('WINDIR'), 'explorer.exe'),
+                os.path.normpath(os.path.dirname(SetupPhase.conf['output_file_name']))
+            ]
+        elif __system == 'Darwin':
+            command = [
+                'open',
+                '-R',
+                SetupPhase.conf['output_file_name']
+            ]
+        else:
+            RuntimeError(f'{__system} is not supported')
+
         subprocess.call(command)
 
     @classmethod
