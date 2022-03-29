@@ -13,10 +13,21 @@ from collections import defaultdict
 from functools import partial
 import plistlib
 from contextlib import suppress
+import platform
 
 
 __file_name = 'config.plist'
-__folder = os.path.expanduser('~/Library/Application Support/ExToWord')
+
+__system = platform.system()
+if __system == 'Linux':
+    __folder = os.path.expanduser('~/.extoword')
+elif __system == 'Windows':
+    __folder = f"{os.environ['APPDATA']}\\ExToWord"
+elif __system == 'Darwin':
+    __folder = os.path.expanduser('~/Library/Application Support/ExToWord')
+else:
+    RuntimeError(f'{__system} is not supported')
+
 __file_path = os.path.join(__folder, __file_name)
 
 with suppress(FileExistsError):
