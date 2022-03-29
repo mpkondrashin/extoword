@@ -65,16 +65,6 @@ WBUTTON = 100
 MARGIN = (WLEFT - WLOGO) // 2
 
 
-
-LABEL_FONT = (None, 12, font.NORMAL)
-BUTTON_FONT = LABEL_FONT
-SMALL_FONT = (None, 10, font.NORMAL)
-
-TITLE_FONT = (None, 14, font.BOLD)
-TIP_FONT = (None, 9, font.NORMAL)
-PHASES_FONT_SIZE = 12
-STATUS_FONT = (None, 9, font.NORMAL)
-
 DEFAULT_DESTINATION = 'no default'
 
 
@@ -98,9 +88,15 @@ class SetupPhase(object):
     y = MARGIN
     stop_flag = False
 
-    font = font.Font(family=tk.NORMAL, size=100, weight="normal")
-    zero_len = font.measure("0")
-    print(zero_len)
+    zero_len = font.Font(family=tk.NORMAL, size=100, weight="normal").measure("0")
+    macos_len = 61
+    LABEL_FONT = (None, int(12 / macos_len * zero_len), font.NORMAL)
+    BUTTON_FONT = LABEL_FONT
+    SMALL_FONT = (None, int(10 / macos_len * zero_len), font.NORMAL)
+    TITLE_FONT = (None, int(14 / macos_len * zero_len), font.BOLD)
+    TIP_FONT = (None, int(9 / macos_len * zero_len), font.NORMAL)
+    PHASES_FONT_SIZE = int(12 / macos_len * zero_len)
+    STATUS_FONT = (None, int(9 / macos_len * zero_len), font.NORMAL)
 
     @classmethod
     def mainloop(cls):
@@ -169,13 +165,13 @@ class SetupPhase(object):
             else:
                 weight = font.NORMAL
                 text = "   %s" % phase.name
-            label = tk.Label(cls.root, text=text, font=(None, PHASES_FONT_SIZE, weight))
+            label = tk.Label(cls.root, text=text, font=(None, cls.PHASES_FONT_SIZE, weight))
             label.place(x=MARGIN - 10, y=y)
             y += HMSPACE
 
     @classmethod
     def add_cancel(cls):
-        btn = tk.Button(cls.root, text=" Cancel ", command=cls.cancel, font=BUTTON_FONT)
+        btn = tk.Button(cls.root, text=" Cancel ", command=cls.cancel, font=cls.BUTTON_FONT)
         btn.place(x=WIDTH - MARGIN, y=HEIGHT - HSTATUS - MARGIN, anchor=tk.SE)
 
     @classmethod
@@ -184,14 +180,14 @@ class SetupPhase(object):
 
     @classmethod
     def add_next(cls):
-        cls.next_btn = tk.Button(cls.root, text=cls.next_button_label(), command=cls.next, font=BUTTON_FONT)
+        cls.next_btn = tk.Button(cls.root, text=cls.next_button_label(), command=cls.next, font=cls.BUTTON_FONT)
         cls.next_btn.config(default=tk.ACTIVE)
         cls.next_btn.place(x=WLEFT + MARGIN + WBUTTON, y=HEIGHT - HSTATUS - MARGIN, anchor=tk.SW)
         cls.run_fields_check()
 
     @classmethod
     def add_prev(cls):
-        btn = tk.Button(cls.root, text=" < Previous ", command=cls.prev, font=BUTTON_FONT)
+        btn = tk.Button(cls.root, text=" < Previous ", command=cls.prev, font=cls.BUTTON_FONT)
         btn.place(x=WLEFT + MARGIN, y=HEIGHT - HSTATUS - MARGIN, anchor=tk.SW)
 
     @classmethod
@@ -199,7 +195,7 @@ class SetupPhase(object):
         frame = tk.Frame(height=HSTATUS-MARGIN, width=WIDTH-MARGIN*2,
                          bd=1, relief=tk.SUNKEN)
         frame.place(x=MARGIN, y=HEIGHT-MARGIN, anchor=tk.SW)
-        label = tk.Label(frame, textvariable=cls.status_var, font=STATUS_FONT)
+        label = tk.Label(frame, textvariable=cls.status_var, font=cls.STATUS_FONT)
         label.place(x=0, y=(HSTATUS-MARGIN)/2-2, anchor=tk.W)
         cls.set_status(cls.default_status)
 
@@ -210,27 +206,27 @@ class SetupPhase(object):
     @classmethod
     def add_title(cls, text):
 #        label = tk.Label(self.root, text=text, font=TITLE_FONT)
-        label = tk.Message(cls.root, text=text, width=WIDTH - WLEFT - MARGIN * 2, font=TITLE_FONT)
+        label = tk.Message(cls.root, text=text, width=WIDTH - WLEFT - MARGIN * 2, font=cls.TITLE_FONT)
         label.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         SetupPhase.y += HSPACE
 
     @classmethod
     def add_pick_folder_file(cls, prompt, variable, callback, tip=None):
-        label = tk.Label(cls.root, text=prompt, font=LABEL_FONT)
+        label = tk.Label(cls.root, text=prompt, font=cls.LABEL_FONT)
         label.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         SetupPhase.y += HSPACE
 
         vcmd = (cls.root.register(cls.validate), '%P')
-        entry = tk.Entry(cls.root, textvariable=variable, width=34, font=LABEL_FONT,
+        entry = tk.Entry(cls.root, textvariable=variable, width=34, font=cls.LABEL_FONT,
                          validate="key", validatecommand=vcmd)
         entry.place(x=WLEFT + MARGIN, y=SetupPhase.y, anchor=tk.W)
 
-        button = tk.Button(cls.root, text="Choose", command=callback, font=BUTTON_FONT)
+        button = tk.Button(cls.root, text="Choose", command=callback, font=cls.BUTTON_FONT)
         button.place(x=WIDTH - MARGIN, y=cls.y, anchor=tk.E)
 
         if tip is not None:
             SetupPhase.y += HMSPACE
-            message = tk.Message(cls.root, width=WIDTH - WLEFT - MARGIN * 2 - 70, text=tip, font=LABEL_FONT)
+            message = tk.Message(cls.root, width=WIDTH - WLEFT - MARGIN * 2 - 70, text=tip, font=cls.LABEL_FONT)
             message.place(x=WLEFT + MARGIN, y=SetupPhase.y)
             # label = tk.Label(self.root, text=tip, font=TIP_FONT)
             # label.place(x=WLEFT + MARGINE, y=SetupPhase.y)
@@ -264,7 +260,7 @@ class SetupPhase(object):
         entry.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         if tip is not None:
             SetupPhase.y += HMSPACE
-            message = tk.Message(cls.root, text=tip, width=WIDTH - WLEFT - MARGIN * 2 - 70, font=TIP_FONT)
+            message = tk.Message(cls.root, text=tip, width=WIDTH - WLEFT - MARGIN * 2 - 70, font=cls.TIP_FONT)
             message.place(x=WLEFT + MARGIN, y=SetupPhase.y)
             SetupPhase.y += HSPACE
         else:
@@ -272,7 +268,7 @@ class SetupPhase(object):
 
     @classmethod
     def add_button(cls, text, command):
-        btn = tk.Button(cls.root, text=text, command=command, font=BUTTON_FONT)
+        btn = tk.Button(cls.root, text=text, command=command, font=cls.BUTTON_FONT)
         btn.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         SetupPhase.y += HMSPACE
 
@@ -286,7 +282,7 @@ class SetupPhase(object):
         check.place(x=WLEFT + MARGIN, y=SetupPhase.y)
         if tip is not None:
             SetupPhase.y += HMSPACE
-            label = tk.Label(cls.root, font=TIP_FONT, text=tip)
+            label = tk.Label(cls.root, font=cls.TIP_FONT, text=tip)
             label.place(x=WLEFT + MARGIN, y=SetupPhase.y)
             SetupPhase.y += HSPACE
         else:
@@ -310,7 +306,7 @@ class SetupPhase(object):
 
     @classmethod
     def add_message(cls, text, **kwargs):
-        options = dict(font=LABEL_FONT)
+        options = dict(font=cls.LABEL_FONT)
         options.update(kwargs)
         message = tk.Message(cls.root,
                              width=WIDTH - WLEFT - MARGIN * 3,
@@ -502,6 +498,11 @@ class SetupPhase(object):
             sheets=SetupPhase.conf['sheets']
         )
 
+    @classmethod
+    def font_size(cls, size):
+        macos_len = 61.0
+        return int(size/macos_len*cls.zero_len)
+
 
 class IntroPhase(SetupPhase):
     name = 'Intro'
@@ -539,8 +540,6 @@ class IntroPhase(SetupPhase):
         window.update()
         window.attributes('-topmost', False)
 
-        #window.geometry("+{}+{}".format(win_pos_x, win_pos_y))
-
         return window
 
     @classmethod
@@ -569,10 +568,8 @@ class IntroPhase(SetupPhase):
 
     @classmethod
     def decorate(cls):
-        #cls.add_title("XLS to DOCX coverter")
-        #title = """This is converter from MS Excel xls files to MS Word docx file """
         cls.add_message(xtow.description)
-        cls.add_message(text=xtow.requirements_en, font=SMALL_FONT)
+        cls.add_message(text=xtow.requirements_en, font=cls.SMALL_FONT)
         cls.root.after(0, cls.show_whats_new)
 
 
@@ -608,14 +605,12 @@ class SourcesPhase(SetupPhase):
 
     @classmethod
     def decorate(cls):
-        #@cls.sources_var.set(cls.sources_var.get())
         cls.add_pick_files("Source Files", cls.sources_var, (("MS Excel file", "*.xls"),),
                            tip='(Multiply files can be selected)')
         cls.add_pick_folder("Target Folder", cls.target_var)
 
     @classmethod
     def acquire_data(cls):
-        #SetupPhase.destination_folder = cls.sources_var.get()
         SetupPhase.conf['sources'] = [s.strip() for s in cls.sources_var.get().split(',')]
         SetupPhase.conf['target_folder'] = cls.target_var.get()
 
@@ -689,29 +684,19 @@ SetupPhase.phases.append(OrderPhase)
 class SuitesPhase(SetupPhase):
     name = 'Suites'
     default_status = 'Pick up required software suites'
-    #checks = dict()
     listbox = None
 
     @classmethod
     def acquire_data(cls):
         SetupPhase.conf['options'] = []
-        #selected = []
         for index in cls.listbox.curselection():
             SetupPhase.conf['options'].append(cls.listbox.get(index))
-        #print(SetupPhase.conf['options'])
-        #SetupPhase.conf['options'] = set([option for option in cls.checks if cls.checks[option].get() == 1])
 
 
     @classmethod
     def decorate(cls):
         etow = cls.open_workbook()
         full_list = etow.list_packages()
-
-#        full_list = []
-##        for o in options:
-#            full_list.extend(list(o))
-
-        #cls.add_listbox([str(x) for x in range(100)])
 
         cls.add_title('Pick required product suites')
         cls.listbox = cls.add_listbox(full_list)
@@ -726,17 +711,13 @@ SetupPhase.phases.append(SuitesPhase)
 class SheetsPhase(SetupPhase):
     name = 'Sheets'
     default_status = 'Remove selection from unnecessary sheets'
-    #checks = dict()
     sheets_listbox = None
 
     @classmethod
     def acquire_data(cls):
         SetupPhase.conf['sheets'] = []
-        #selected = []
         for index in cls.sheets_listbox.curselection():
             SetupPhase.conf['sheets'].append(cls.sheets_listbox.get(index))
-        #print(SetupPhase.conf['options'])
-        #SetupPhase.conf['options'] = set([option for option in cls.checks if cls.checks[option].get() == 1])
 
 
     @classmethod
@@ -752,8 +733,6 @@ class SheetsPhase(SetupPhase):
         else:
             cls.sheets_listbox.select_set(0, tk.END)
 
-
-#SetupPhase.phases.append(SheetsPhase)
 
 
 class FormatPhase(SetupPhase):
