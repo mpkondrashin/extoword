@@ -41,7 +41,7 @@ python build.py
 This will generate ```extoword``` executable that does not require to have python
 to be installed.
 
-Note: This feature was tested only for macOS
+Note: This feature was not tested under Linux
 
 ## GUI image
 
