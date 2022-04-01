@@ -5,7 +5,12 @@
 """
 import os
 import sys
+import platform
 
+def exe():
+    if platform.system() == 'Windows':
+        return '.exe'
+    return ''
 
 def build():
     os.chdir(os.path.dirname(sys.argv[0]))
@@ -19,7 +24,7 @@ def build():
     mtime = [os.path.getmtime(f) for f in src]
     latest_change = max(mtime)
     try:
-        if os.path.getmtime('xtoword') > latest_change:
+        if os.path.getmtime('xtoword' + exe()) > latest_change:
             print('Skip build')
             return 1
     except FileNotFoundError:
