@@ -36,7 +36,7 @@ def build():
 
     # --noconsole ' \
     default_docx = 'venv/lib/python3.9/site-packages/docx/templates/default.docx'
-    if platform.system() == "Windws":
+    if platform.system() == "Windows":
         default_docx = 'venv/lib/site-packages/docx/templates/default.docx'
     command = 'pyinstaller --noconfirm --clean --onedir --onefile --specpath . ' \
               '--distpath . --workpath temp ' \
